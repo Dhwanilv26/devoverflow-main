@@ -13,6 +13,8 @@ import Image from "next/image";
 
 import { Editor } from "@tinymce/tinymce-react";
 
+import { useRouter, usePathname } from "next/navigation";
+
 import {
   Form,
   FormControl,
@@ -28,9 +30,15 @@ import { createQuestion } from "@/lib/actions/question.action";
 
 const type: any = "create";
 
-const Question = () => {
+interface Props {
+  mongoUserId: string;
+}
+const Question = ({ mongoUserId }: Props) => {
   const { mode } = useTheme();
   const editorRef = useRef(null);
+
+  const router = useRouter(); // to navigate to different urls
+  const pathname = usePathname(); // to read the current url
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -46,8 +54,15 @@ const Question = () => {
   const onSubmit = async (values: z.infer<typeof QuestionsSchema>) => {
     setIsSubmitting(true);
     try {
-      await createQuestion({});
-      
+      await createQuestion({
+        title: values.title,
+        content: values.explaination,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+        path:pathname
+      });
+
+      router.push("/");
     } catch (error) {
       console.error(error);
     } finally {
