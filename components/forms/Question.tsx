@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import * as z from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,10 +23,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useTheme } from "@/context/ThemeProvider";
+import { Button } from "../ui/button";
+
+const type: any = "create";
 
 const Question = () => {
   const { mode } = useTheme();
   const editorRef = useRef(null);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
     defaultValues: {
@@ -36,11 +42,26 @@ const Question = () => {
     },
   });
 
+  const onSubmit = async (values: z.infer<typeof QuestionsSchema>) => {
+    setIsSubmitting(true);
+    try {
+      // make async call to your api -> create a question
+      // contain all form data
+
+      // navigate to home page
+      
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleTagRemove = (tag: string, field: any) => {
     const newTags = field.value.filter((t: string) => t !== tag);
-
     form.setValue("tags", newTags);
   };
+
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     field: any
@@ -66,7 +87,7 @@ const Question = () => {
           });
         }
 
-        // only ddding distinct tags
+        // only adding distinct tags
         if (!field.value.includes(tagValue as never)) {
           form.setValue("tags", [...field.value, tagValue]);
           tagInput.value = "";
@@ -78,9 +99,13 @@ const Question = () => {
       }
     }
   };
+
   return (
     <Form {...form}>
-      <form onSubmit={() => {}} className="flex w-full flex-col gap-10">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex w-full flex-col gap-10"
+      >
         <FormField
           control={form.control}
           name="title"
@@ -208,6 +233,18 @@ const Question = () => {
             </FormItem>
           )}
         />
+
+        <Button
+          type="submit"
+          className="primary-gradient w-fit !text-light-900"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>{type === "edit" ? "Editing..." : "Posting..."}</>
+          ) : (
+            <>{type === "edit" ? "Edit Question" : "Ask a Question"}</>
+          )}{" "}
+        </Button>
       </form>
     </Form>
   );
