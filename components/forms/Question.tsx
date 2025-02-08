@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/form";
 import { useTheme } from "@/context/ThemeProvider";
 import { Button } from "../ui/button";
+import { createQuestion } from "@/lib/actions/question.action";
 
 const type: any = "create";
 
@@ -45,10 +46,7 @@ const Question = () => {
   const onSubmit = async (values: z.infer<typeof QuestionsSchema>) => {
     setIsSubmitting(true);
     try {
-      // make async call to your api -> create a question
-      // contain all form data
-        console.log(values);
-      // navigate to home page
+      await createQuestion({});
       
     } catch (error) {
       console.error(error);

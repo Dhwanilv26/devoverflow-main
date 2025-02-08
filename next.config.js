@@ -1,9 +1,9 @@
 const nextConfig = {
   experimental: {
-    serverActions: true,
+    serverActions: {},
     mdxRs: true,
-    serverComponentsExternalPackages: ["mongoose"],
   },
+  serverExternalPackages: ["mongoose"],
   images: {
     remotePatterns: [
       {
