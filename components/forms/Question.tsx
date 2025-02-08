@@ -47,7 +47,7 @@ const Question = () => {
     try {
       // make async call to your api -> create a question
       // contain all form data
-
+        console.log(values);
       // navigate to home page
       
     } catch (error) {
