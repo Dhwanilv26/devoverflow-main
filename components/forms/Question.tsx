@@ -154,7 +154,6 @@ const Question = ({ mongoUserId }: Props) => {
                 <Editor
                   apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                   onInit={(evt, editor) => {
-                    // @ts-expect-error wtf
                     editorRef.current = editor;
                   }}
                   onBlur={field.onBlur}
