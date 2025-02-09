@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "npx tsc --noEmit && next build --no-lint",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "npm install --legacy-peer-deps"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.10.6",
