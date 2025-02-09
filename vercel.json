@@ -1,8 +1,7 @@
 {
   "build": {
     "env": {
-      "TS_NODE_IGNORE_ERRORS": "true",
-      "NODE_OPTIONS": "--legacy-peer-deps"
+      "TS_NODE_IGNORE_ERRORS": "true"
     }
   }
 }
