@@ -6,7 +6,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "noEmit": true, // Prevent emitting files
+    "noEmit": true, 
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
