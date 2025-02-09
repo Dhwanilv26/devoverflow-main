@@ -5,7 +5,9 @@ import { createUser, deleteUser, updateUser } from "@/lib/actions/user.action";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+  const WEBHOOK_SECRET = "whsec_Ccglc/5HaPNImjhGCtJSZeJ/fNhvsjmL";
+
+  console.log(WEBHOOK_SECRET);
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
@@ -74,7 +76,7 @@ export async function POST(req: Request) {
       },
       path: `/profile/${id}`,
     });
-
+    console.log("user is updated");
     return NextResponse.json({ message: "OK", user: mongoUser });
   }
 
