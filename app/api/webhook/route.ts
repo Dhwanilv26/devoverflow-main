@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = "whsec_Ccglc/5HaPNImjhGCtJSZeJ/fNhvsjmL";
 
-  console.log(WEBHOOK_SECRET);
+  // console.log(WEBHOOK_SECRET);
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
       email: email_addresses[0].email_address,
       picture: image_url,
     });
-
+    console.log("user is created");
     return NextResponse.json({ message: "OK", user: mongoUser });
   } else if (eventType === "user.updated") {
     const { id, email_addresses, image_url, username, first_name, last_name } =
