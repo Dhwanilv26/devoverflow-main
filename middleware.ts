@@ -1,19 +1,27 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/']);
+// Define the public routes
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  "/api/webhook",
+  "/question/:id",
+  "/tags/",
+  "/tags/:id",
+  "/profile/:id",
+  "/community",
+  "/jobs",
+]);
 
-export default clerkMiddleware(async (auth, request) => {
+// Define the ignored routes
+const isIgnoredRoute = createRouteMatcher(["/api/webhook", "/api/chatgpt"]);
+
+export default clerkMiddleware((auth, request) => {
   if (!isPublicRoute(request)) {
-    await auth.protect();
+    auth().protect();
   }
 });
-
 export const config = {
-    // to protect all routes, use the following matcher:
-  matcher: [
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
-    
-    
-  ],
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
