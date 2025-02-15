@@ -1,3 +1,4 @@
+import Answer from '@/components/forms/Answer';
 import Metric from '@/components/shared/Metric';
 import ParseHTML from '@/components/shared/ParseHTML';
 import RenderTag from '@/components/shared/RenderTag';
@@ -67,7 +68,18 @@ const Page = async ({ params, searchParams }: any) => {
 
     <ParseHTML data={result.content}/>
       
-     
+     <div className='mt-8 flex flex-wrap gap-2'>
+
+      {result.tags.map((tag)=>(
+        <RenderTag
+        key={tag._id}
+        _id={tag._id}
+        name={tag.name}
+        showCount={false}/>
+      ))}
+     </div>
+
+     <Answer/>
       
     </>
   )
