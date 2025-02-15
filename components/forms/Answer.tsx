@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { AnswerSchema } from "@/lib/validations";
 import { z } from "zod";
@@ -17,8 +18,14 @@ interface Props {
   questionId: string;
   authorId: string;
 }
-const Answer = ({ question, questionId, authorId }: Props) => {
+const Answer = ({ questionId, authorId }: Props) => {
+
+  const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mode } = useTheme();
+  const editorRef = React.useRef(null);
+
+
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
     defaultValues: {
@@ -26,27 +33,23 @@ const Answer = ({ question, questionId, authorId }: Props) => {
     },
   });
 
-  const pathname = usePathname();
-
-  const editorRef = React.useRef(null);
-  const { mode } = useTheme(); // or "dark" depending on your application context
 
   const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
     setIsSubmitting(true);
 
     try {
-      await createAnswer({
+       await createAnswer({
         content: values.answer,
         author: JSON.parse(authorId),
         question: JSON.parse(questionId),
         path: pathname,
       });
 
+      ;
       form.reset();
 
       if (editorRef.current) {
         const editor = editorRef.current as any;
-
         editor.setContent("");
       }
     } catch (error) {
@@ -128,6 +131,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
                     }}
                   />
                 </FormControl>
+                <FormMessage className="text-red-500"/>
               </FormItem>
             )}
           />
