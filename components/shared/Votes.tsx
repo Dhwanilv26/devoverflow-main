@@ -1,8 +1,10 @@
 "use client";
+import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answers.action";
 import {
   downvoteQuestion,
   upvoteQuestion,
 } from "@/lib/actions/question.action";
+import { toggleSaveQuestion } from "@/lib/actions/user.action";
 import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -31,7 +33,13 @@ const Votes = ({
 }: Props) => {
   const pathname = usePathname();
   //   const router = useRouter();
-  const handleSave = () => {};
+  const handleSave = async () => {
+    await toggleSaveQuestion({
+      userId: JSON.parse(userId),
+      questionId: JSON.parse(itemId),
+      path: pathname,
+    });
+  };
 
   const handleVote = async (action: string) => {
     if (!userId) {
@@ -48,13 +56,13 @@ const Votes = ({
           path: pathname,
         });
       } else if (type === "Answer") {
-        // await upvoteAnswer({
-        //     questionId: JSON.parse(itemId),
-        //     userId: JSON.parse(userId),
-        //     hasupVoted,
-        //     hasdownVoted,
-        //     path: pathname,
-        //   });
+        await upvoteAnswer({
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          hasupVoted,
+          hasdownVoted,
+          path: pathname,
+        });
       }
       // todo : show a toast
       return;
@@ -70,13 +78,13 @@ const Votes = ({
           path: pathname,
         });
       } else if (type === "Answer") {
-        // await downvoteAnswer({
-        //     questionId: JSON.parse(itemId),
-        //     userId: JSON.parse(userId),
-        //     hasupVoted,
-        //     hasdownVoted,
-        //     path: pathname,
-        //   });
+        await downvoteAnswer({
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          hasupVoted,
+          hasdownVoted,
+          path: pathname,
+        });
       }
       // todo : show a toast
       return;
@@ -139,7 +147,7 @@ const Votes = ({
           width={18}
           height={18}
           className="cursor-pointer"
-          onClick={() => {}}
+          onClick={handleSave}
         />
       )}
     </div>
