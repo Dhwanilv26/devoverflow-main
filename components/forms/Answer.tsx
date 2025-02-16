@@ -14,7 +14,6 @@ import { createAnswer } from "@/lib/actions/answers.action";
 import { usePathname } from "next/navigation";
 
 interface Props {
-  question: string;
   questionId: string;
   authorId: string;
 }
