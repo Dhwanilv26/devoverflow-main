@@ -6,16 +6,21 @@ import {
   CreateUserParams,
   DeleteUserParams,
   GetAllUsersParams,
+  GetSavedQuestionsParams,
   GetUserByIdParams,
   ToggleSaveQuestionParams,
   UpdateUserParams,
 } from "./shared.types";
+import Tag from "../../database/tag.model";
 import { revalidatePath } from "next/cache";
 import Question from "../../database/question.model";
 
+import { FilterQuery } from "mongoose";
+import { usedDynamicAPIs } from "next/dist/server/app-render/dynamic-rendering";
+
 export async function getUserById(params: GetUserByIdParams) {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     const { userId } = params;
     const user = await User.findOne({ clerkId: userId });
@@ -133,6 +138,44 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
     }
 
     revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getSavedQuestions(params: GetSavedQuestionsParams) {
+  try {
+    connectToDatabase();
+
+    const { clerkId, page = 1, pageSize = 10, filter, searchQuery } = params;
+
+    const query: FilterQuery<typeof Question> = searchQuery
+      ? { title: { $regex: new RegExp(searchQuery, "i") } }
+      : {};
+    const user = await User.findOne({ clerkId }).populate({
+      path: "saved",
+      match: query,
+      options: {
+        sort: { createdAt: -1 },
+      },
+      populate: [
+        { path: "tags", model: Tag, select: "_id name" },
+        { path: "author", model: User, select: "_id clerkId name picture" },
+      ],
+    });
+
+    // first populate -> replaces objectids of the questions to actual questions by the question model
+    // second populate -> fetches additional details of the data obtained in the saved field
+
+    if (!user) {
+      throw new Error("user not found");
+    }
+
+    const savedQuestions = user.saved;
+    // returns data of savedQuestions as questions only
+    return { questions: savedQuestions };
+    return user;
   } catch (error) {
     console.log(error);
     throw error;
