@@ -1,4 +1,5 @@
 import ProfileLink from "@/components/shared/ProfileLink";
+import QuestionsTab from "@/components/shared/QuestionsTab";
 import Stats from "@/components/shared/Stats";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -77,8 +78,9 @@ const page = async ({ params, searchParams }: URLProps) => {
       </div>
 
       <Stats
-      totalQuestions={userInfo.totalQuestions}
-      totalAnswers={userInfo.totalAnswers} />
+        totalQuestions={userInfo.totalQuestions}
+        totalAnswers={userInfo.totalAnswers}
+      />
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-1">
           <TabsList className="background-light800_dark400 min-h-[42px] p-1">
@@ -93,10 +95,14 @@ const page = async ({ params, searchParams }: URLProps) => {
             value="top-posts"
             className="mt-5 flex w-full flex-col gap-6"
           >
-            Questions
+            <QuestionsTab
+              searchParams={searchParams}
+              userId={userInfo.user._id}
+              clerkId={clerkId}
+            />
           </TabsContent>
           <TabsContent value="answers" className="flex w-full flex-col gap-6">
-            Answers
+            AnswersTab
           </TabsContent>
         </Tabs>
       </div>
