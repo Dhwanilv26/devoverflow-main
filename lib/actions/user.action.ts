@@ -17,6 +17,7 @@ import Question from "../../database/question.model";
 
 import { FilterQuery } from "mongoose";
 import { usedDynamicAPIs } from "next/dist/server/app-render/dynamic-rendering";
+import Answer from "@/database/answer.model";
 
 export async function getUserById(params: GetUserByIdParams) {
   try {
@@ -176,6 +177,28 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
     // returns data of savedQuestions as questions only
     return { questions: savedQuestions };
     return user;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getUserInfo(params: GetUserByIdParams) {
+  try {
+    connectToDatabase();
+
+    const { userId } = params;
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error("user not found");
+    }
+
+    const totalQuestions = await Question.countDocuments({ author: user._id });
+    const totalAnswers = await Answer.countDocuments({ author: user._id });
+
+    return { user, totalQuestions, totalAnswers };
   } catch (error) {
     console.log(error);
     throw error;
