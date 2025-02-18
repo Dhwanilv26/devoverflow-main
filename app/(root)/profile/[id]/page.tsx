@@ -1,3 +1,4 @@
+import AnswersTab from "@/components/shared/AnswersTab";
 import ProfileLink from "@/components/shared/ProfileLink";
 import QuestionsTab from "@/components/shared/QuestionsTab";
 import Stats from "@/components/shared/Stats";
@@ -95,14 +96,18 @@ const page = async ({ params, searchParams }: URLProps) => {
             value="top-posts"
             className="mt-5 flex w-full flex-col gap-6"
           >
-            <QuestionsTab
-              searchParams={searchParams}
-              userId={userInfo.user._id}
-              clerkId={clerkId}
-            />
+            {await QuestionsTab({
+              searchParams,
+              userId: userInfo.user._id,
+              clerkId,
+            })}
           </TabsContent>
           <TabsContent value="answers" className="flex w-full flex-col gap-6">
-            AnswersTab
+            {await AnswersTab({
+              searchParams,
+              userId: userInfo.user._id,
+              clerkId,
+            })}
           </TabsContent>
         </Tabs>
       </div>
