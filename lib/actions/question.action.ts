@@ -22,7 +22,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
 
     const query: FilterQuery<typeof Question> = {};
 
@@ -34,6 +34,25 @@ export async function getQuestions(params: GetQuestionsParams) {
       ];
     }
 
+    let sortOptions = {};
+
+    switch (filter) {
+      case "newest":
+        sortOptions = { createdAt: -1 };
+        break;
+
+      case "frequent":
+        sortOptions = { views: -1 };
+        break;
+
+      case "unanswered":
+        query.answers = { $size: 0 };
+        break;
+
+      default:
+        break;
+    }
+
     // questions mai jo tags field hai usko populate karne ka path hi tag model se aayega .. similarly for author
     // path ke values exist karne padenge in the question model .. bcz mongodb only stores the object ids for the referenced values .. usse name nikalne ke liye .populate use kiya hai!!
 
@@ -43,7 +62,7 @@ export async function getQuestions(params: GetQuestionsParams) {
         model: Tag,
       })
       .populate({ path: "author", model: User })
-      .sort({ createdAt: -1 });
+      .sort(sortOptions);
     // display the question along with its tags
 
     return { questions };

@@ -11,7 +11,12 @@ import Link from "next/link";
 import React from "react";
 
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const result = await getQuestions({ searchQuery: searchParams.q });
+  const result = await getQuestions({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+  });
+
+  // todo: fetch recommended questions
 
   return (
     <>
