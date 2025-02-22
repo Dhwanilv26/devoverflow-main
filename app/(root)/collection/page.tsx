@@ -9,6 +9,14 @@ import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Collections | Dev Overflow",
+  description:
+    "Dev Overflow is a community of developers, where you can ask questions, share your knowledge and learn from others.",
+};
+
 export default async function Home({ searchParams }: SearchParamsProps) {
   const { userId } = auth();
 

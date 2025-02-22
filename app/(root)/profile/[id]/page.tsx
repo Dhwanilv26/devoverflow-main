@@ -13,6 +13,14 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Profile | Dev Overflow",
+  description:
+    "Dev Overflow is a community of developers, where you can ask questions, share your knowledge and learn from others.",
+};
+
 const page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
   const userInfo = await getUserInfo({ userId: params.id });
