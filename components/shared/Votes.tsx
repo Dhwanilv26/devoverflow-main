@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner"; // Import Sonner toast
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answers.action";
 import { viewQuestion } from "@/lib/actions/interaction.action";
 import {
@@ -9,7 +10,6 @@ import { toggleSaveQuestion } from "@/lib/actions/user.action";
 import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 interface Props {
@@ -34,18 +34,30 @@ const Votes = ({
   hasSaved,
 }: Props) => {
   const pathname = usePathname();
-  const router = useRouter();
+
   const handleSave = async () => {
+    if (!userId) {
+      return toast.error("You need to be logged in", {
+        description: "Please log in to save questions",
+      });
+    }
+
     await toggleSaveQuestion({
       userId: JSON.parse(userId),
       questionId: JSON.parse(itemId),
       path: pathname,
     });
+
+    toast.success(hasSaved ? "Question unsaved" : "Question saved", {
+      description: "Saved questions can be accessed later.",
+    });
   };
 
   const handleVote = async (action: string) => {
     if (!userId) {
-      return;
+      return toast.error("You need to be logged in", {
+        description: "Please log in to vote",
+      });
     }
 
     if (action === "upvote") {
@@ -66,7 +78,7 @@ const Votes = ({
           path: pathname,
         });
       }
-      // todo : show a toast
+      toast.success("Upvoted successfully!");
       return;
     }
 
@@ -88,7 +100,7 @@ const Votes = ({
           path: pathname,
         });
       }
-      // todo : show a toast
+      toast.success("Downvoted successfully!");
       return;
     }
   };
@@ -98,9 +110,8 @@ const Votes = ({
       questionId: JSON.parse(itemId),
       userId: userId ? JSON.parse(userId) : undefined,
     });
+  }, [itemId, userId, pathname]);
 
-    
-  }, [itemId, userId, pathname, router]);
   return (
     <div className="flex gap-5">
       <div className="flex-center gap-2.5">
