@@ -17,7 +17,7 @@ Devoverflow is a full-stack developer community platform inspired by Stack Overf
 - **AI-Generated Answers**: Integrated with Google's Gemini API to generate AI-powered responses.
 - **Voting System**: Upvote/downvote questions and answers.
 - **Save Questions**: Users can save questions for later reference.
-- **Hot & Recommended Questions**: Personalized and trending questions displayed in the right sidebar.
+- **Hot & Recommended Questions**: Personalized and trending questions displayed in the right sidebar and also on the home page.
 - **Pagination & Search**: Efficient question browsing with local search and filters.
 
 ### 🔍 Tagging & Filtering
@@ -25,6 +25,14 @@ Devoverflow is a full-stack developer community platform inspired by Stack Overf
 - **Dynamic Tag System**: Each question can be tagged with relevant technologies.
 - **Popular Tags**: Most used tags are highlighted in the sidebar.
 - **Filter & Sorting Options**: Users can sort questions based on newest, most voted, or most viewed.
+
+🔎 Advanced Global Search System
+
+- **Unified Search**: Users can search across questions, answers, tags, and user profiles in one query.
+
+- **Real-Time Filtering**: Dynamic filtering options to refine search results.
+
+- **Optimized Search Performance**: Efficient aggregation pipelines for faster and more relevant results.
 
 ### 📊 Community & User Interaction
 
@@ -45,7 +53,7 @@ Devoverflow is a full-stack developer community platform inspired by Stack Overf
 
 ### 📡 Future Enhancements
 
-- **Job Board Feature (Upcoming)**: A dedicated section for developer job postings and applications. 
+- **Job Board Feature (Upcoming)**: A dedicated section for developer job postings and applications.
 - **Real-Time Job Search APIs**: Seeking better implementations for job search functionalities. Developers are encouraged to contribute ideas for a solid, efficient, and real-time job searching system leveraging robust APIs and data sources.
 
 ## Tech Stack
@@ -55,9 +63,7 @@ Devoverflow is a full-stack developer community platform inspired by Stack Overf
 - **Next.js 14**: Server and client rendering capabilities.
 - **React 18**: Component-based UI development.
 - **Tailwind CSS**: Modern utility-first styling.
-- **Radix UI**: Accessible UI components.
-- **Lucide Icons**: Consistent icon library.
-- **Sonner**: Toast notifications for user feedback.
+- **ShadCN UI**: Beautiful and customizable UI components.
 
 ### 🛠 Backend & Database
 
@@ -80,12 +86,13 @@ Devoverflow is a full-stack developer community platform inspired by Stack Overf
 - Node.js (v18+)
 - MongoDB Database
 - Clerk Account for Authentication
+- Google Gemini API Key for AI Answer generation
 
 ### Steps to Run Locally
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/devoverflow.git
+   git clone https://github.com/Dhwanilv26/devoverflow-main.git
    cd devoverflow
    ```
 2. Install dependencies:
@@ -118,11 +125,6 @@ Devoverflow is a full-stack developer community platform inspired by Stack Overf
 
 Contributions are welcome! Feel free to submit issues or pull requests to improve Devoverflow.
 
-## License
-
-MIT License
-
 ## Author
 
 Built by Dhwanil Vaidya
-
