@@ -17,11 +17,7 @@ import { revalidatePath } from "next/cache";
 import Question from "../../database/question.model";
 
 import { FilterQuery } from "mongoose";
-import { usedDynamicAPIs } from "next/dist/server/app-render/dynamic-rendering";
 import Answer from "@/database/answer.model";
-import { connect } from "http2";
-import { TypeOf } from "zod";
-import { Regex } from "lucide-react";
 import { BadgeCriteriaType } from "@/types";
 import { assignBadges } from "../utils";
 

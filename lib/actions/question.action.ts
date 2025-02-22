@@ -12,6 +12,7 @@ import {
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
+  RecommendedParams,
 } from "./shared.types";
 import { revalidatePath } from "next/cache";
 import Answer from "@/database/answer.model";
@@ -295,6 +296,81 @@ export async function getHotQuestions() {
     return hotQuestions;
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+}
+
+export async function getRecommendedQuestions(params: RecommendedParams) {
+  try {
+    await connectToDatabase();
+
+    const { userId, page = 1, pageSize = 20, searchQuery } = params;
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error("user not found");
+    }
+
+    const skipAmount = (page - 1) * pageSize;
+
+    // Get user's interactions
+    const userInteractions = await Interaction.find({ user: user._id })
+      .populate("tags")
+      .exec();
+
+    const userTags = userInteractions.flatMap(
+      (interaction) => interaction.tags || []
+    );
+    const distinctUserTagIds = [...new Set(userTags.map((tag) => tag._id))];
+
+    let query: FilterQuery<typeof Question> = {};
+
+    if (distinctUserTagIds.length > 0) {
+      // Get users who interacted with the same tags
+      const similarUsers = await Interaction.find({
+        tags: { $in: distinctUserTagIds },
+        user: { $ne: user._id },
+      }).distinct("user");
+
+      // Get questions from these users
+      const similarUsersQuestions = await Question.find({
+        author: { $in: similarUsers },
+        tags: { $in: distinctUserTagIds },
+      }).distinct("_id");
+
+      query = {
+        $or: [
+          { tags: { $in: distinctUserTagIds } }, // Questions matching user's tags
+          { _id: { $in: similarUsersQuestions } }, // Questions from similar users
+        ],
+        author: { $ne: user._id }, // Exclude user's own questions
+      };
+    } else {
+      // No interactions, recommend trending/popular questions instead
+      query = { author: { $ne: user._id } };
+    }
+
+    if (searchQuery) {
+      query.$or = query.$or || [];
+      query.$or.push(
+        { title: { $regex: searchQuery, $options: "i" } },
+        { content: { $regex: searchQuery, $options: "i" } }
+      );
+    }
+
+    const totalQuestions = await Question.countDocuments(query);
+    const recommendedQuestions = await Question.find(query)
+      .populate("tags")
+      .populate("author")
+      .sort({ views: -1, upvotes: -1, createdAt: -1 }) // Prioritize engagement
+      .skip(skipAmount)
+      .limit(pageSize);
+
+    const isNext = totalQuestions > skipAmount + recommendedQuestions.length;
+
+    return { questions: recommendedQuestions, isNext };
+  } catch (error) {
+    console.error("Error getting recommended questions:", error);
     throw error;
   }
 }
