@@ -43,3 +43,31 @@ export const sidebarLinks: SidebarLink[] = [
     label: "Ask a question",
   },
 ];
+
+export const BADGE_CRITERIA = {
+  QUESTION_COUNT: {
+    BRONZE: 1,
+    SILVER: 3,
+    GOLD: 5,
+  },
+  ANSWER_COUNT: {
+    BRONZE: 1,
+    SILVER: 3,
+    GOLD: 5,
+  },
+  QUESTION_UPVOTES: {
+    BRONZE: 1,
+    SILVER: 3,
+    GOLD: 5,
+  },
+  ANSWER_UPVOTES: {
+    BRONZE: 1,
+    SILVER: 3,
+    GOLD: 5,
+  },
+  TOTAL_VIEWS: {
+    BRONZE: 10,
+    SILVER: 30,
+    GOLD: 50,
+  },
+};

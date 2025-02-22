@@ -1,7 +1,9 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { BadgeCounts } from "@/types";
-import qs from "query-string"
+import qs from "query-string";
+
+import { BADGE_CRITERIA } from "@/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -125,9 +127,11 @@ export const assignBadges = (params: BadgeParam) => {
   const { criteria } = params;
 
   criteria.forEach((item) => {
+    // har criteria mai jaakar dekh raha hai ki uska count kitna hai
+
     const { type, count } = item;
     const badgeLevels: any = BADGE_CRITERIA[type];
-
+    // fir agar count required criteria se jyada hai toh usko badge dena hai us type (gold,silver,bronze) ka
     Object.keys(badgeLevels).forEach((level: any) => {
       if (count >= badgeLevels[level]) {
         badgeCounts[level as keyof BadgeCounts] += 1;
