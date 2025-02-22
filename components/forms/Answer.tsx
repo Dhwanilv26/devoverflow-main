@@ -18,12 +18,14 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answers.action";
 import { usePathname } from "next/navigation";
+import { toast } from "sonner"; // ✅ Import toast from sonner
 
 interface Props {
   question: string;
   questionId: string;
   authorId: string;
 }
+
 const Answer = ({ question, questionId, authorId }: Props) => {
   const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,14 +52,19 @@ const Answer = ({ question, questionId, authorId }: Props) => {
       });
 
       form.reset();
-
       if (editorRef.current) {
         const editor = editorRef.current as any;
         editor.setContent("");
       }
+
+      toast.success("Answer submitted successfully!", {
+        description: "Your answer has been added to the discussion.",
+        duration: 3000,
+      });
+
     } catch (error) {
-      console.log(error);
-      throw error;
+      console.error(error);
+      toast.error("Failed to submit answer.");
     } finally {
       setIsSubmitting(false);
     }
@@ -71,11 +78,9 @@ const Answer = ({ question, questionId, authorId }: Props) => {
     setIsSubmittingAI(true);
 
     try {
-      // make api call to own api endpoint
-
+      // Make API call to get AI-generated answer
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
-
         {
           method: "POST",
           body: JSON.stringify({ question }),
@@ -94,9 +99,16 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         const editor = editorRef.current as any;
         editor.setContent(formattedAnswer);
       }
+
+      // ✅ Show success toast after AI answer generation
+      toast.success("AI-generated answer added!", {
+        description: "You can review and edit before submitting.",
+        duration: 3000,
+      });
+
     } catch (error) {
-      console.log(error);
-      throw error;
+      console.error(error);
+      toast.error("Failed to generate AI answer.");
     } finally {
       setIsSubmittingAI(false);
     }
@@ -112,6 +124,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         <Button
           className="btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500"
           onClick={generateAIAnswer}
+          disabled={isSubmittingAI}
         >
           {isSubmittingAI ? (
             <>Generating...</>
@@ -197,4 +210,5 @@ const Answer = ({ question, questionId, authorId }: Props) => {
     </div>
   );
 };
+
 export default Answer;
