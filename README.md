@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Devoverflow
 
-## Getting Started
+Devoverflow is a full-stack developer community platform inspired by Stack Overflow. It allows developers to ask and answer technical questions, interact with other users, and engage with various features like voting, saving questions, filtering, and more.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 🔐 Authentication & User Management
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Clerk Authentication**: Secure authentication with Clerk for user sign-up, login, and session management.
+- **Customizable User Profiles**: Users can update their name, username, bio, profile picture, and more.
+- **User Reputation System**: Reputation points based on contributions and interactions.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 📝 Rich Q&A System
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Ask Questions**: Users can post questions with rich text formatting using TinyMCE.
+- **Answer Questions**: Provide detailed answers, including code snippets.
+- **AI-Generated Answers**: Integrated with Google's Gemini API to generate AI-powered responses.
+- **Voting System**: Upvote/downvote questions and answers.
+- **Save Questions**: Users can save questions for later reference.
+- **Hot & Recommended Questions**: Personalized and trending questions displayed in the right sidebar.
+- **Pagination & Search**: Efficient question browsing with local search and filters.
 
-## Learn More
+### 🔍 Tagging & Filtering
 
-To learn more about Next.js, take a look at the following resources:
+- **Dynamic Tag System**: Each question can be tagged with relevant technologies.
+- **Popular Tags**: Most used tags are highlighted in the sidebar.
+- **Filter & Sorting Options**: Users can sort questions based on newest, most voted, or most viewed.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 📊 Community & User Interaction
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **User Leaderboard**: Displays the most active and high-reputation users.
+- **User Profiles & Contributions**: View all questions, answers, and tags interacted with by a specific user.
+- **Interacted Tags**: Users can track their most engaged tags.
 
-## Deploy on Vercel
+### 🌙 Dark Mode Support
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Next-Themes Integration**: Provides a seamless light/dark mode experience.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 🚀 Performance & Optimization
+
+- **Dynamic Imports**: Used for improved page loading performance.
+- **Server Actions**: Optimized server-side processing for enhanced performance.
+- **MongoDB & Mongoose**: Efficient database handling for scalability.
+- **SWR (Optional)**: Data fetching with caching capabilities.
+
+### 📡 Future Enhancements
+
+- **Job Board Feature (Upcoming)**: A dedicated section for developer job postings and applications. 
+- **Real-Time Job Search APIs**: Seeking better implementations for job search functionalities. Developers are encouraged to contribute ideas for a solid, efficient, and real-time job searching system leveraging robust APIs and data sources.
+
+## Tech Stack
+
+### 🌐 Frontend
+
+- **Next.js 14**: Server and client rendering capabilities.
+- **React 18**: Component-based UI development.
+- **Tailwind CSS**: Modern utility-first styling.
+- **Radix UI**: Accessible UI components.
+- **Lucide Icons**: Consistent icon library.
+- **Sonner**: Toast notifications for user feedback.
+
+### 🛠 Backend & Database
+
+- **Next.js Server Actions**: API routes and server-side functionalities.
+- **MongoDB & Mongoose**: NoSQL database for data storage.
+- **Clerk Authentication**: User authentication and session handling.
+- **Google's Gemini API**: AI-powered answer generation.
+
+### 📦 Additional Libraries
+
+- **TinyMCE**: Rich text editor for question descriptions.
+- **PrismJS**: Syntax highlighting for code snippets.
+- **Query-String**: URL query parameter handling.
+- **Zod**: Schema validation.
+
+## Installation & Setup
+
+### Prerequisites
+
+- Node.js (v18+)
+- MongoDB Database
+- Clerk Account for Authentication
+
+### Steps to Run Locally
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/devoverflow.git
+   cd devoverflow
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Deployment
+
+### Deploying to Vercel
+
+1. Install Vercel CLI:
+   ```bash
+   npm install -g vercel
+   ```
+2. Login to Vercel:
+   ```bash
+   vercel login
+   ```
+3. Deploy the project:
+   ```bash
+   vercel
+   ```
+
+## Contributing
+
+Contributions are welcome! Feel free to submit issues or pull requests to improve Devoverflow.
+
+## License
+
+MIT License
+
+## Author
+
+Built by Dhwanil Vaidya
+
