@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import User from "@/database/user.model";
@@ -10,25 +11,63 @@ import {
 import Tag, { ITag } from "@/database/tag.model";
 import Question from "@/database/question.model";
 import { FilterQuery } from "mongoose";
+import Interaction from "@/database/interaction.model";
+import mongoose from "mongoose";
 
 export async function GetTopInteractedTags(params: GetTopInteractedTagsParams) {
   try {
     connectToDatabase();
 
     const { userId } = params;
-    const user = await User.findById(userId);
 
+    const user = await User.findById(userId);
     if (!user) {
-      throw new Error("user not found");
+      console.log("User not found.");
+      throw new Error("User not found");
     }
 
-    return [
-      { _id: "1", name: "tag1" },
-      { _id: "2", name: "tag2" },
-      { _id: "3", name: "tag3" },
-    ];
+    const userInteractions = await Interaction.find({ user: user._id })
+      .populate({ path: "tags", model: "Tag" })
+      .lean() // Ensures plain JSON objects
+      .exec();
+
+    const userTags: ITag[] = userInteractions.reduce(
+      (tags: ITag[], interaction) => {
+        const interactionTags = Array.isArray(interaction.tags)
+          ? interaction.tags
+          : interaction.tags
+            ? [interaction.tags]
+            : [];
+        return tags.concat(interactionTags);
+      },
+      []
+    );
+
+    const tagCountMap = userTags.reduce(
+      (countMap: Map<string, number>, tag: ITag) => {
+        const tagId = tag._id.toString(); // 🔹 Convert `_id` to string
+        countMap.set(tagId, (countMap.get(tagId) || 0) + 1);
+        return countMap;
+      },
+      new Map<string, number>()
+    );
+
+    const sortedTags = Array.from(tagCountMap.entries()).sort(
+      (a, b) => b[1] - a[1]
+    );
+
+    // Convert to expected format
+    const top3Tags = sortedTags
+      .slice(0, 3)
+      .map(([id]) => {
+        const tag = userTags.find((t) => t._id.toString() === id);
+        return tag ? { _id: id, name: tag.name } : null;
+      })
+      .filter(Boolean);
+
+    return top3Tags;
   } catch (error) {
-    console.log(error);
+    console.error("Error in GetTopInteractedTags:", error);
     throw error;
   }
 }
@@ -37,7 +76,7 @@ export async function getAllTags(params: GetAllTagsParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 5 } = params;
 
     const skipAmount = (page - 1) * pageSize;
 
@@ -90,6 +129,12 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
     const { tagId, page = 1, pageSize = 5, searchQuery } = params;
 
     const skipAmount = (page - 1) * pageSize;
+
+    const isValidObjectId = mongoose.isValidObjectId(tagId);
+
+    if (!isValidObjectId) {
+      throw new Error("Invalid tagId");
+    }
 
     const tagFilter: FilterQuery<ITag> = { _id: tagId };
 
