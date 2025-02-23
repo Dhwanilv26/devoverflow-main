@@ -47,7 +47,6 @@ export default async function Home({ searchParams }: SearchParamsProps) {
     });
   }
 
-  // todo: fetch recommended questions
 
   return (
     <>
