@@ -26,13 +26,11 @@ Devoverflow is a full-stack developer community platform inspired by Stack Overf
 - **Popular Tags**: Most used tags are highlighted in the sidebar.
 - **Filter & Sorting Options**: Users can sort questions based on newest, most voted, or most viewed.
 
-🔎 Advanced Global Search System
+### 💼 Job Search System
 
-- **Unified Search**: Users can search across questions, answers, tags, and user profiles in one query.
-
-- **Real-Time Filtering**: Dynamic filtering options to refine search results.
-
-- **Optimized Search Performance**: Efficient aggregation pipelines for faster and more relevant results.
+- **Browse Jobs**: A fully integrated job search system that allows users to explore software development jobs.
+- **Filtering & Sorting**: Jobs can be filtered by title, location, and experience level for a personalized experience.
+- **Job Details & Applications**: Users can view job descriptions and navigate to application pages directly.
 
 ### 📊 Community & User Interaction
 
@@ -51,10 +49,29 @@ Devoverflow is a full-stack developer community platform inspired by Stack Overf
 - **MongoDB & Mongoose**: Efficient database handling for scalability.
 - **SWR (Optional)**: Data fetching with caching capabilities.
 
-### 📡 Future Enhancements
+## 📸 Demo Screenshots
 
-- **Job Board Feature (Upcoming)**: A dedicated section for developer job postings and applications.
-- **Real-Time Job Search APIs**: Seeking better implementations for job search functionalities. Developers are encouraged to contribute ideas for a solid, efficient, and real-time job searching system leveraging robust APIs and data sources.
+### 🏠 Home Page
+![Home Page](demo_images/home_page.png)
+
+### 🌍 Community Page 
+![Community Page](demo_images/community_page.png)
+
+### 📚 Collections Page  
+![Collections Page](demo_images/collections_page.png)
+
+### 💼 Jobs Page  
+![Jobs Page](demo_images/jobs_page.png)
+
+### 🔖 Tags Page  
+![Tags Page](demo_images/tags_page.png)
+
+### 👤 Profile Page 
+![Profile Page](demo_images/profile_page.png)
+
+### ❓ Question Details Page  
+![Question Details](demo_images/question_details_page.png)
+
 
 ## Tech Stack
 
@@ -71,6 +88,7 @@ Devoverflow is a full-stack developer community platform inspired by Stack Overf
 - **MongoDB & Mongoose**: NoSQL database for data storage.
 - **Clerk Authentication**: User authentication and session handling.
 - **Google's Gemini API**: AI-powered answer generation.
+- **JSearch API**: Provides real-time job listings and search capabilities.
 
 ### 📦 Additional Libraries
 
@@ -78,6 +96,7 @@ Devoverflow is a full-stack developer community platform inspired by Stack Overf
 - **PrismJS**: Syntax highlighting for code snippets.
 - **Query-String**: URL query parameter handling.
 - **Zod**: Schema validation.
+
 
 ## Installation & Setup
 
@@ -90,36 +109,23 @@ Devoverflow is a full-stack developer community platform inspired by Stack Overf
 
 ### Steps to Run Locally
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Dhwanilv26/devoverflow-main.git
-   cd devoverflow
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+```bash
+git clone https://github.com/Dhwanilv26/devoverflow-main.git
+cd devoverflow-main
+npm install
+npm run dev
+```
 
 ## Deployment
 
 ### Deploying to Vercel
 
-1. Install Vercel CLI:
-   ```bash
-   npm install -g vercel
-   ```
-2. Login to Vercel:
-   ```bash
-   vercel login
-   ```
-3. Deploy the project:
-   ```bash
-   vercel
-   ```
+```bash
+npm install -g vercel
+vercel login
+vercel
+```
+
 
 ## Contributing
 
@@ -127,4 +133,5 @@ Contributions are welcome! Feel free to submit issues or pull requests to improv
 
 ## Author
 
-Built by Dhwanil Vaidya
+Built by **Dhwanil Vaidya**
+
