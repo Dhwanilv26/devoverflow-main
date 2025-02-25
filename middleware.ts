@@ -5,9 +5,8 @@ const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
   "/sign-up(.*)",
   "/api/webhook",
-  "/question(.*)",
-  "/tags/",
-  "/tags/:id",
+  "/question(.*)", 
+  "/tags(.*)", 
   "/profile/:id",
   "/community",
   "/jobs",
@@ -15,9 +14,10 @@ const isPublicRoute = createRouteMatcher([
 
 export default clerkMiddleware((auth, request) => {
   if (!isPublicRoute(request)) {
-    auth().protect();
+    auth().protect(); // Protect only non-public routes
   }
 });
+
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
