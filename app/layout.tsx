@@ -8,6 +8,7 @@ import "./globals.css";
 import "../styles/prism.css";
 import { ThemeProvider } from "@/context/ThemeProvider";
 
+import { Analytics } from "@vercel/analytics/next";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -48,6 +49,7 @@ export default function RootLayout({
         >
           <ThemeProvider>{children}</ThemeProvider>
         </ClerkProvider>
+        <Analytics />
       </body>
     </html>
   );
